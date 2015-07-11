@@ -1,0 +1,40 @@
+.navbar.navbar-default.navbar-fixed-top
+  .container
+    .navbar-header
+      button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.navbar-brand(href='/')
+        i.fa.fa-cube
+        | Data Fountain
+    .collapse.navbar-collapse
+      ul.nav.navbar-nav
+        li(class=locals.title=='Home'?'active':undefined)
+          a(href='/') Home
+        li(class=locals.title=='API Examples'?'active':undefined)
+          a(href='/api') API Examples
+        li(class=locals.title=='Contact'?'active':undefined)
+          a(href='/contact') Contact
+      ul.nav.navbar-nav.navbar-right
+        if !locals.user
+          li(class=locals.title=='Login'?'active':undefined)
+            a(href='/login') Login
+          li(class=locals.title=='Create Account'?'active':undefined)
+            a(href='/signup') Create Account
+        else
+          li.dropdown(class=locals.title=='Account Management'?'active':undefined)
+            a.dropdown-toggle(href='#', data-toggle='dropdown')
+              if locals.user.profile.picture
+                img(src='#{locals.user.profile.picture}')
+              else
+                img(src='#{locals.user.gravatar(60)}')
+              | #{locals.user.profile.name || locals.user.email || locals.user.id}&nbsp;
+              i.caret
+            ul.dropdown-menu
+              li
+                a(href='/account') My Account
+              li.divider
+              li
+                a(href='/logout') Logout
