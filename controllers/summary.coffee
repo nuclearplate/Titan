@@ -1,6 +1,5 @@
-Q = require('Q')
-User = require('../models/User')
-Stream = require('../models/Stream')
+Q = require 'Q'
+Stream = require '../models/stream'
 
 SummaryController = ->
 
@@ -22,9 +21,11 @@ SummaryController::summary = (req, res) ->
     map: mapper
     query: {}
     reduce: reducer
+
   Q.ninvoke(Stream, 'mapReduce', opts).then (results) ->
     model = results[0]
     stats = results[1]
+
     model.find (err, totals) ->
       console.log 'TOTALS', arguments
       retval = {}
@@ -41,8 +42,5 @@ SummaryController::summary = (req, res) ->
         retval[type][value] = count
         ++iTotal
       res.json retval
-      return
-    return
-  return
 
 module.exports = SummaryController

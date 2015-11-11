@@ -1,4 +1,4 @@
-DataType = require('../models/DataType')
+DataType = require '../models/data_type'
 
 DataTypeController = (emitter) ->
 

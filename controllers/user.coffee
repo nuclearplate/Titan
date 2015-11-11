@@ -1,12 +1,12 @@
-_ = require('lodash')
-async = require('async')
-crypto = require('crypto')
-nodemailer = require('nodemailer')
-passport = require('passport')
-User = require('../models/User')
-Stream = require('../models/Stream')
-DataType = require('../models/DataType')
-secrets = require('../config/secrets')
+_ = require 'lodash'
+async = require 'async'
+crypto = require 'crypto'
+nodemailer = require 'nodemailer'
+passport = require 'passport'
+User = require '../models/user'
+Stream = require '../models/stream'
+DataType = require '../models/data_type'
+secrets = require '../config/secrets'
 
 exports.getAll = (req, res) ->
   User.find({}).then((err, users) ->

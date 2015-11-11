@@ -6,7 +6,7 @@
     "url": "https://github.com/sahat/hackathon-starter.git"
   },
   "scripts": {
-    "start": "node app.js",
+    "start": "./node_modules/coffee-script/bin/coffee app.coffee",
     "test": "mocha"
   },
   "dependencies": {
@@ -17,6 +17,7 @@
     "body-parser": "^1.12.4",
     "cheerio": "^0.19.0",
     "clockwork": "^0.1.0",
+    "coffee-script": "^1.10.0",
     "compression": "^1.5.0",
     "connect-assets": "^4.7.1",
     "connect-mongo": "^0.8.1",

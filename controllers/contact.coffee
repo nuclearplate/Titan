@@ -1,10 +1,10 @@
-secrets = require('../config/secrets')
-nodemailer = require('nodemailer')
-transporter = nodemailer.createTransport(
+secrets = require '../config/secrets'
+nodemailer = require 'nodemailer'
+transporter = nodemailer.createTransport
   service: 'SendGrid'
   auth:
     user: secrets.sendgrid.user
-    pass: secrets.sendgrid.password)
+    pass: secrets.sendgrid.password
 
 ###*
 # GET /contact

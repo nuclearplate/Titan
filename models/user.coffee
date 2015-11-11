@@ -1,7 +1,8 @@
-bcrypt = require('bcrypt-nodejs')
-crypto = require('crypto')
-mongoose = require('mongoose')
-userSchema = new (mongoose.Schema)(
+bcrypt = require 'bcrypt-nodejs'
+crypto = require 'crypto'
+mongoose = require 'mongoose'
+
+userSchema = new mongoose.Schema
   email:
     type: String
     unique: true
@@ -32,7 +33,7 @@ userSchema = new (mongoose.Schema)(
       type: String
       default: ''
   resetPasswordToken: String
-  resetPasswordExpires: Date)
+  resetPasswordExpires: Date
 
 ###*
 # Password hash middleware.
@@ -50,9 +51,6 @@ userSchema.pre 'save', (next) ->
         return next(err)
       user.password = hash
       next()
-      return
-    return
-  return
 
 ###*
 # Helper method for validating user's password.
@@ -63,8 +61,6 @@ userSchema.methods.comparePassword = (candidatePassword, cb) ->
     if err
       return cb(err)
     cb null, isMatch
-    return
-  return
 
 ###*
 # Helper method for getting user's gravatar.
@@ -78,4 +74,4 @@ userSchema.methods.gravatar = (size) ->
   md5 = crypto.createHash('md5').update(@email).digest('hex')
   'https://gravatar.com/avatar/' + md5 + '?s=' + size + '&d=retro'
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model 'User', userSchema

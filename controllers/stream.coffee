@@ -1,5 +1,4 @@
-User = require('../models/User')
-Stream = require('../models/Stream')
+Stream = require '../models/stream'
 
 StreamController = (emitter) ->
   @emitter = emitter
