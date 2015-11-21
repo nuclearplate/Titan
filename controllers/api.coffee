@@ -1,10 +1,10 @@
-secrets = require('../config/secrets')
-querystring = require('querystring')
-validator = require('validator')
-async = require('async')
-cheerio = require('cheerio')
-request = require('request')
-graph = require('fbgraph')
+secrets = require '../config/secrets'
+querystring = require 'querystring'
+validator = require 'validator'
+async = require 'async'
+cheerio = require 'cheerio'
+request = require 'request'
+graph = require 'fbgraph'
 LastFmNode = require('lastfm').LastFmNode
 tumblr = require('tumblr.js')
 foursquare = require('node-foursquare')(secrets: secrets.foursquare)
