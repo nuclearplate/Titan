@@ -1,3 +1,5 @@
+records.json
+build/
 lib-cov
 *.seed
 *.log

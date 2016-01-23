@@ -4,7 +4,7 @@ var ComponentPlugin = require("component-webpack-plugin"),
 
 module.exports = {
     context: __dirname,
-    entry: "./public/js/main.js",
+    entry: "./public/js/main.coffee",
     devtool: 'inline-source-map',
 
     output: {
@@ -18,6 +18,8 @@ module.exports = {
     },
 
     resolve: {
+        extensions: ["", ".webpack.js", ".web.js", ".js", ".coffee"],
+        
         // Absolute path that contains modules
         root: __dirname,
 
@@ -33,7 +35,7 @@ module.exports = {
     module: {
         loaders: [
             { test: /\.json$/,   loader: "json-loader" },
-            //{ test: /\.coffee$/, loader: "coffee-loader" },
+            { test: /\.coffee$/, loader: "coffee-loader" },
             { test: /\.css$/,    loader: "style-loader!css-loader" },
             { test: /\.less$/,   loader: "style-loader!css-loader!less-loader" },
             { test: /\.sass$/,   loader: "style-loader!css-loader!sass-loader" },

@@ -1,5 +1,5 @@
 CreateView = Backbone.View.extend
-  template: require'../../html/views/create.jade'
+  template: require '../../html/views/create.jade'
   
   render: ->
     @$el.html @template()
