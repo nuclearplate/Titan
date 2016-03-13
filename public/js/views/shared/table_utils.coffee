@@ -71,6 +71,28 @@ TableUtils =
           return @
     }
 
+  button: (label, onClick) ->
+    {
+      editable: false
+      sortable: false
+      label: label
+      cell: Backgrid.Cell.extend
+        render: ->
+          @$el.empty()
+          guid = uuid.v1()
+
+          @$el.html """
+            <a class="btn btn-default table-button-#{guid}" href="javascript:void(0)">#{label}</a>
+          """
+
+          @$(".table-button-#{guid}").on 'click', (event) =>
+            onClick event, @model
+
+          @$el.css 'text-align', 'center'
+          @delegateEvents()
+          return @
+    }
+
   wholeObjectJSONPopup: ->
     {
       cell: Backgrid.IntegerCell.extend
