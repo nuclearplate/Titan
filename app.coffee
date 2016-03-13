@@ -2,26 +2,26 @@
 # Module dependencies.
 ###
 
-EventEmitter = require('events').EventEmitter
-express = require('express')
-cookieParser = require('cookie-parser')
-compress = require('compression')
-favicon = require('serve-favicon')
-session = require('express-session')
-bodyParser = require('body-parser')
-logger = require('morgan')
-errorHandler = require('errorhandler')
-lusca = require('lusca')
-methodOverride = require('method-override')
-multer = require('multer')
-_ = require('lodash')
+_ = require 'lodash'
+path = require 'path'
+lusca = require 'lusca'
+flash = require 'express-flash'.
+logger = require 'morgan'
+multer = require 'multer'
+express = require 'express'
+compress = require 'compression'
+favicon = require 'serve-favicon'
+session = require 'express-session'
+mongoose = require 'mongoose'
+passport = require 'passport'
+bodyParser = require 'body-parser'
 MongoStore = require('connect-mongo')(session)
-flash = require('express-flash')
-path = require('path')
-mongoose = require('mongoose')
-passport = require('passport')
-expressValidator = require('express-validator')
-connectAssets = require('connect-assets')
+errorHandler = require 'errorhandler'
+cookieParser = require 'cookie-parser'
+methodOverride = require 'method-override'
+connectAssets = require 'connect-assets'
+{EventEmitter} = require 'events'
+expressValidator = require 'express-validator'
 
 ###*
 # Central Data Event Emitter
