@@ -5,7 +5,7 @@
 _ = require 'lodash'
 path = require 'path'
 lusca = require 'lusca'
-flash = require 'express-flash'.
+flash = require 'express-flash'
 logger = require 'morgan'
 multer = require 'multer'
 express = require 'express'
@@ -18,9 +18,10 @@ bodyParser = require 'body-parser'
 MongoStore = require('connect-mongo')(session)
 errorHandler = require 'errorhandler'
 cookieParser = require 'cookie-parser'
-methodOverride = require 'method-override'
 connectAssets = require 'connect-assets'
 {EventEmitter} = require 'events'
+methodOverride = require 'method-override'
+UserController = require './controllers/user'
 expressValidator = require 'express-validator'
 
 ###*
@@ -35,7 +36,8 @@ emitter = new EventEmitter
 
 apiController = require './controllers/api'
 homeController = require './controllers/home'
-userController = require './controllers/user'
+
+userController = new UserController
 SummaryController = require './controllers/summary'
 summaryController = new SummaryController
 DataTypeController = require './controllers/datatype'
@@ -127,11 +129,10 @@ app.use express.static(path.join(__dirname, 'public'), maxAge: 31557600000)
 
 app.get '/', (req, res) ->
   res.sendFile __dirname + '/index.html'
-  return
 app.get '/index.html', (req, res) ->
   res.sendFile __dirname + '/index.html'
-  return
-app.get '/login', userController.getLogin
+
+app.get '/user', passportConf.isAuthenticated, userController.getUser
 app.post '/login', userController.postLogin
 app.get '/logout', userController.logout
 app.get '/forgot', userController.getForgot
@@ -140,8 +141,6 @@ app.get '/reset/:token', userController.getReset
 app.post '/reset/:token', userController.postReset
 app.get '/signup', userController.getSignup
 app.post '/signup', userController.postSignup
-app.get '/contact', contactController.getContact
-app.post '/contact', contactController.postContact
 app.get '/account', passportConf.isAuthenticated, userController.getAccount
 app.post '/account/profile', passportConf.isAuthenticated, userController.postUpdateProfile
 app.post '/account/password', passportConf.isAuthenticated, userController.postUpdatePassword
@@ -162,7 +161,19 @@ app.post '/api/stream', streamController.create
 app.delete '/api/stream', streamController.delete
 app.post '/api/:user/streams/:streamId', ->
   streamController.push.apply streamController, arguments
-  return
+
+googleAuth = passport.authenticate 'google',
+  failureRedirect: '/#login'
+  accessType: 'offline'
+  scope: [
+    'profile email'
+    'https://www.googleapis.com/auth/calendar'
+  ]
+
+app.get '/auth/google', googleAuth
+app.get '/auth/google/callback', googleAuth, (req, res) ->
+  res.redirect req.session.returnTo || '/'
+
 # /**
 #  * API examples routes.
 #  */
