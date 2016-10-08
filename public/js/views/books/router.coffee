@@ -1,4 +1,4 @@
-WriteView = require './list'
+ListView = require './list'
 
 Router = Backbone.SubRoute.extend
   routes:
@@ -7,8 +7,7 @@ Router = Backbone.SubRoute.extend
   initialize: ({@page, @parent}) ->
 
   list: () ->
-    view = new DeployView
+    view = new ListView
     $('.main-housing').html view.render().el
-    @parent.loadTheme @page
 
 module.exports = Router
