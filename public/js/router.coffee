@@ -1,3 +1,5 @@
+async = require 'async'
+
 User = require './models/user'
 
 BooksRouter = require './views/books/router'
