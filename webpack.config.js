@@ -5,7 +5,7 @@ var ComponentPlugin = require("component-webpack-plugin"),
 module.exports = {
     context: __dirname,
     entry: "./public/js/main.coffee",
-    devtool: 'inline-source-map',
+    devtool: '#eval-cheap-module-source-map',
 
     output: {
         path: path.join(__dirname, "build"),
