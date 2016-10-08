@@ -79,18 +79,21 @@ allowCrossDomain = (req, res, next) ->
   next()
   return
 
-app.set 'port', process.env.PORT or 3333
+app.set 'view engine', 'jade'
+app.set 'views', "#{__dirname}/public/html/views"
+app.set 'port', process.env.PORT or 4444
 app.use express.static(__dirname + '/node_modules')
 app.use '/build', express.static('build')
 app.use '/node_modules', express.static('node_modules')
 app.use '/package.json', express.static('package.json')
-#app.use('/index.html', express.static('index.html'));
 app.use compress()
-app.use connectAssets(paths: [
-  path.join(__dirname, 'public/css')
-  path.join(__dirname, 'public/js')
-  path.join(__dirname, 'public/img')
-])
+app.use connectAssets
+  paths: [
+    path.join(__dirname, 'public/css')
+    path.join(__dirname, 'public/js')
+    path.join(__dirname, 'public/img')
+  ]
+
 app.use logger('dev')
 app.use favicon(path.join(__dirname, 'public/favicon.png'))
 app.use bodyParser.json()
@@ -99,28 +102,30 @@ app.use bodyParser.text()
 app.use bodyParser.urlencoded(extended: true)
 app.use multer(dest: path.join(__dirname, 'uploads'))
 app.use expressValidator()
-#app.use(allowCrossDomain);
 app.use methodOverride()
 app.use cookieParser()
-app.use session(
+
+masterSession = session
   resave: true
   saveUninitialized: true
   secret: secrets.sessionSecret
-  store: new MongoStore(
+  store: new MongoStore
     url: secrets.db
-    autoReconnect: true))
+    autoReconnect: true
+
+app.use masterSession
 app.use passport.initialize()
 app.use passport.session()
 app.use flash()
 app.use (req, res, next) ->
   res.locals.user = req.user
   next()
-  return
+
 app.use (req, res, next) ->
   if /api/i.test(req.path)
     req.session.returnTo = req.path
   next()
-  return
+
 app.use express.static(path.join(__dirname, 'public'), maxAge: 31557600000)
 
 ###*
@@ -167,11 +172,11 @@ googleAuth = passport.authenticate 'google',
   accessType: 'offline'
   scope: [
     'profile email'
-    'https://www.googleapis.com/auth/calendar'
   ]
 
 app.get '/auth/google', googleAuth
 app.get '/auth/google/callback', googleAuth, (req, res) ->
+  console.log "GOOGLE AUTH CALLBACK", req.session.returnTo
   res.redirect req.session.returnTo || '/'
 
 # /**
