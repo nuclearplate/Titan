@@ -82,7 +82,7 @@ allowCrossDomain = (req, res, next) ->
 
 app.set 'view engine', 'jade'
 app.set 'views', "#{__dirname}/public/html/views"
-app.set 'port', process.env.PORT or 9821
+app.set 'port', process.env.PORT or 4444
 app.use express.static(__dirname + '/node_modules')
 app.use '/build', express.static('build')
 app.use '/node_modules', express.static('node_modules')
