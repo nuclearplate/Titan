@@ -2,8 +2,6 @@ async = require 'async'
 scriptjs = require 'scriptjs'
 
 require '../css/main.less'
-require '../vendor/vex/css/vex.css'
-require '../vendor/vex/css/vex-theme-wireframe.css'
 require '../../node_modules/vis/dist/vis.css'
 
 window.jQuery = require 'jquery'
@@ -19,10 +17,6 @@ require 'bootstrap'
 
 window.Backbone = require 'backbone'
 window.Backbone.$ = jQuery
-
-window.vex = require '../vendor/vex/js/vex'
-window.vex.defaultOptions.className = 'vex-theme-wireframe'
-require '../vendor/vex/js/vex.dialog'
 
 module.exports = (callback) ->
   async.eachSeries [
