@@ -101,7 +101,6 @@ passport.use new GitHubStrategy secrets.github, (req, accessToken, refreshToken,
 # Sign in with Google.
 ###
 
-console.log "GOOGLE SECRETS", secrets.google
 passport.use new GoogleStrategy secrets.google, (req, accessToken, refreshToken, profile, done) ->
   console.log "GOOGLE PASSPORT", accessToken, refreshToken, profile
 

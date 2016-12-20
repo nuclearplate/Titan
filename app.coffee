@@ -9,11 +9,12 @@ flash = require 'express-flash'
 logger = require 'morgan'
 multer = require 'multer'
 express = require 'express'
-compress = require 'compression'
 favicon = require 'serve-favicon'
+Sockets = require './lib/sockets'
 session = require 'express-session'
 mongoose = require 'mongoose'
 passport = require 'passport'
+compress = require 'compression'
 bodyParser = require 'body-parser'
 MongoStore = require('connect-mongo')(session)
 errorHandler = require 'errorhandler'
@@ -81,7 +82,7 @@ allowCrossDomain = (req, res, next) ->
 
 app.set 'view engine', 'jade'
 app.set 'views', "#{__dirname}/public/html/views"
-app.set 'port', process.env.PORT or 4444
+app.set 'port', process.env.PORT or 9821
 app.use express.static(__dirname + '/node_modules')
 app.use '/build', express.static('build')
 app.use '/node_modules', express.static('node_modules')
@@ -264,31 +265,12 @@ app.use errorHandler()
 # Start Express server.
 ###
 
-server = app.listen(app.get('port'), ->
+server = app.listen app.get('port'), ->
   console.log 'Express server listening on port %d in %s mode', app.get('port'), app.get('env')
-  return
-)
-io = require('socket.io').listen(server)
-io.sockets.on 'connection', (client) ->
-  console.log 'CONNECTION'
-  username = null
-  streamId = null
-  client.on 'info', (info) ->
-    console.log 'GOT INFO', info
-    username = info.username
-    streamId = info.streamId
-    eventName = username + '/' + streamId + '/data'
-    console.log 'LISTENING FOR', eventName
-    emitter.on eventName, (data) ->
-      console.log 'ABOUT TO EMIT DATA'
-      client.emit 'data', data
-      return
-    return
-  # client.on('data', function (data) {
-  #   var eventName = username + '/' + streamId + '/data';
-  #   emitter.emit(eventName, data);
-  # });
-  return
+
+sockets = new Sockets server, app, masterSession
+sockets.setup()
+
 module.exports = app
 
 # ---
